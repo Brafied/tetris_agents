@@ -20,7 +20,7 @@ def play_with_image():
     print(f"Final Score: {tetris.score}")
 
 def play_with_window():
-    tetris = Tetris(show_grid=True)
+    tetris = Tetris()
 
     screen = pygame.display.set_mode(
         (tetris.surface.get_width(), tetris.surface.get_height())
@@ -35,7 +35,9 @@ def play_with_window():
                 pygame.quit()
                 return
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_h:
+                    tetris.process_action("HOLD")
+                elif event.key == pygame.K_LEFT:
                     tetris.process_action("LEFT")
                 elif event.key == pygame.K_RIGHT:
                     tetris.process_action("RIGHT")
