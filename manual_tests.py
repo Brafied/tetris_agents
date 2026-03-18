@@ -20,7 +20,7 @@ def play_with_image():
     print(f"Final Score: {tetris.score}")
 
 def play_with_window():
-    tetris = Tetris()
+    tetris = Tetris(show_grid=True)
 
     screen = pygame.display.set_mode(
         (tetris.surface.get_width(), tetris.surface.get_height())
@@ -47,6 +47,6 @@ def play_with_window():
     print(f"Final Score: {tetris.score}")
 
 if __name__ == "__main__":
-    # play_with_image()
+    #play_with_image()
     play_with_window()
 

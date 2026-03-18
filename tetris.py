@@ -50,7 +50,15 @@ TETROMINOS = [
 TETROMINO_COLORS = [CYAN, YELLOW, MAGENTA, GREEN, RED, BLUE, ORANGE]
 
 class Tetris:
-    def __init__(self, grid_width=10, grid_height=20, cell_size=30, use_bag_randomizer=True):
+    def __init__(
+            self,
+            grid_width=10,
+            grid_height=20, 
+            cell_size=30, 
+            use_bag_randomizer=True, 
+            show_grid=True, 
+            show_ghost_piece=True
+        ):
         pygame.init()
 
         self.grid_width = grid_width
@@ -63,6 +71,8 @@ class Tetris:
 
         self.tetris_grid = [[BLACK for _ in range(self.grid_width)] for _ in range(self.grid_height)]
         self.use_bag_randomizer = use_bag_randomizer
+        self.show_grid = show_grid
+        self.show_ghost_piece = show_ghost_piece
         self.bag = []
         self.current_tetromino = self.get_tetromino()
         self.is_game_over = False
@@ -93,7 +103,14 @@ class Tetris:
         for y in range(self.grid_height):
             for x in range(self.grid_width):
                 pygame.draw.rect(self.surface, self.tetris_grid[y][x], (x * self.cell_size, y * self.cell_size, self.cell_size, self.cell_size))
-                pygame.draw.rect(self.surface, GRAY, (x * self.cell_size, y * self.cell_size, self.cell_size, self.cell_size), 1)
+                if self.tetris_grid[y][x] != BLACK or self.show_grid:
+                    pygame.draw.rect(self.surface, GRAY, (x * self.cell_size, y * self.cell_size, self.cell_size, self.cell_size), 1)
+
+        if self.show_ghost_piece:
+            for y, row in enumerate(self.current_tetromino['shape']):
+                for x, cell in enumerate(row):
+                    if cell:
+                        pygame.draw.rect(self.surface, self.current_tetromino['color'], ((self.current_tetromino['x'] + x) * self.cell_size, (self.get_ghost_piece_y_position() + y) * self.cell_size, self.cell_size, self.cell_size), 2)
 
         for y, row in enumerate(self.current_tetromino['shape']):
             for x, cell in enumerate(row):
@@ -103,6 +120,12 @@ class Tetris:
                     pygame.draw.rect(self.surface, self.current_tetromino['color'], (offset_x * self.cell_size, offset_y * self.cell_size, self.cell_size, self.cell_size))
                     pygame.draw.rect(self.surface, GRAY, (offset_x * self.cell_size, offset_y * self.cell_size, self.cell_size, self.cell_size), 1)
 
+    def get_ghost_piece_y_position(self):
+        offset_y = 0
+        while self.is_action_valid(self.current_tetromino, 0, offset_y + 1):
+            offset_y += 1
+        return self.current_tetromino['y'] + offset_y
+    
     def get_state_image(self):
         return self.surface
 
