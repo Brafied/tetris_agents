@@ -1,3 +1,13 @@
-python -m venv myenv
-source myenv/bin/activate
-pip install -r requirements.txt
+### Make Python enviornment
+
+``python -m venv myenv``
+
+### Activate Python enviornment 
+
+``source myenv/bin/activate``
+
+### Install requirements
+
+``pip install -r requirements.txt``
+
+
