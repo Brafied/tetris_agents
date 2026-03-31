@@ -10,7 +10,7 @@ Requirements:
      open a window ourselves.)
 
 Usage:
-    export OPENROUTER_API_KEY="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"
+    export OPENROUTER_API_KEY="key"
     python llm_tetris_eval.py
 
 Outputs (written to ./results/):
